@@ -4,126 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spam Email Detection API</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            color: #333;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-        textarea {
-            width: 100%;
-            height: 150px;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            margin-top: 6px;
-            margin-bottom: 16px;
-            resize: vertical;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .spam {
-            background-color: #ffdddd;
-            border-left: 6px solid #f44336;
-        }
-        .not-spam {
-            background-color: #ddffdd;
-            border-left: 6px solid #4CAF50;
-        }
-        .error {
-            background-color: #fff3cd;
-            border-left: 6px solid #ffc107;
-        }
-        .hidden {
-            display: none;
-        }
-        .api-section {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #f5f5f5;
-            border-radius: 5px;
-        }
-        pre {
-            background-color: #eee;
-            padding: 10px;
-            border-radius: 4px;
-            overflow-x: auto;
-        }
-        #loading {
-            display: none;
-            text-align: center;
-            margin: 15px 0;
-        }
-    </style>
 </head>
-<body>
-    <h1>Spam Email Detection API</h1>
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto; padding: 40px 20px; color: #2d3436; background-color: #f9f9ff; background-image: linear-gradient(135deg, #f9f9ff 0%, #ebfcff 100%);">
+    <header style="margin-bottom: 30px; text-align: center;">
+        <h1 style="color: #6c5ce7; text-shadow: 1px 1px 3px rgba(0,0,0,0.1); padding-bottom: 15px; font-size: 36px; font-weight: 700; background: linear-gradient(90deg, #6c5ce7, #00cec9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: inline-block;">Spam Email Detection API</h1>
+    </header>
     
-    <h2>Live Demo</h2>
-    <p>Test the spam detection model with your own text:</p>
-    <div>
-        <textarea id="emailContent" placeholder="Enter email content here..."></textarea>
-        <button id="checkButton" onclick="checkSpam()">Check if Spam</button>
-    </div>
-    
-    <div id="loading">Analyzing text...</div>
-    
-    <div id="result" class="result hidden">
-        <h3>Result: <span id="classification"></span></h3>
-        <p>Spam Probability: <span id="probability"></span></p>
-    </div>
-
-    <div id="debug" class="result hidden">
-        <h3>Debug Information</h3>
-        <pre id="debugInfo"></pre>
-    </div>
-    
-    <div class="api-section">
-        <h2>API Documentation</h2>
-        <h3>Endpoint: /predict</h3>
-        <p>Method: POST</p>
-        <p>Content-Type: application/json</p>
+    <section style="background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(108,92,231,0.15); margin-bottom: 40px; border-top: 5px solid #6c5ce7;">
+        <h2 style="color: #0984e3; font-size: 26px; margin-top: 0; margin-bottom: 20px;">Live Demo</h2>
+        <p style="margin-bottom: 20px; color: #636e72; font-size: 17px;">Test the spam detection model with your own text:</p>
+        <div>
+            <textarea id="emailContent" placeholder="Enter email content here..." style="width: 100%; height: 150px; padding: 15px; border: 2px solid #dfe6e9; border-radius: 10px; box-sizing: border-box; margin-bottom: 20px; font-family: inherit; font-size: 16px; resize: vertical; transition: all 0.3s; background-color: #f8fafc;"></textarea>
+            <button id="checkButton" onclick="checkSpam()" style="background: linear-gradient(135deg, #6c5ce7 0%, #00cec9 100%); color: white; padding: 14px 28px; border: none; border-radius: 50px; font-size: 16px; cursor: pointer; transition: all 0.3s; font-weight: 600; box-shadow: 0 4px 15px rgba(108,92,231,0.3); display: inline-block;">Check if Spam</button>
+        </div>
         
-        <h4>Request Format:</h4>
-        <pre>
+        <div id="loading" style="display: none; text-align: center; margin: 25px 0; color: #6c5ce7;">
+            <div style="display: inline-block; border: 4px solid #f3f3f3; border-top: 4px solid #6c5ce7; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite;"></div>
+            <p style="margin-top: 10px; font-weight: 500;">Analyzing text...</p>
+        </div>
+        
+        <div id="result" style="margin-top: 30px; padding: 20px; border-radius: 10px; display: none; animation: fadeIn 0.5s;">
+            <h3 style="margin-top: 0; font-size: 22px;">Result: <span id="classification" style="font-weight: 600;"></span></h3>
+            <p style="margin-bottom: 0; font-size: 17px;">Spam Probability: <span id="probability" style="font-weight: 600;"></span></p>
+        </div>
+
+        <div id="debug" style="margin-top: 30px; padding: 20px; border-radius: 10px; background-color: #fffbeb; border-left: 6px solid #fdcb6e; display: none; animation: fadeIn 0.5s;">
+            <h3 style="margin-top: 0; color: #b7791f; font-size: 20px;">Debug Information</h3>
+            <pre id="debugInfo" style="background-color: #fff; padding: 15px; border-radius: 8px; overflow-x: auto; margin: 0; font-family: monospace; font-size: 14px; border: 1px dashed #fdcb6e;"></pre>
+        </div>
+    </section>
+    
+    <section style="background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,206,201,0.15); border-top: 5px solid #00cec9;">
+        <h2 style="color: #00cec9; font-size: 26px; margin-top: 0; margin-bottom: 25px;">API Documentation</h2>
+        
+        <div style="margin-bottom: 30px;">
+            <h3 style="color: #0984e3; font-size: 22px; margin-bottom: 15px;">Endpoint: <span style="background-color: #e3f8ff; padding: 5px 10px; border-radius: 6px; font-family: monospace;">/predict</span></h3>
+            <p style="margin: 8px 0; color: #636e72; font-size: 17px;"><strong style="color: #2d3436;">Method:</strong> <span style="background-color: #f0f0f7; padding: 3px 10px; border-radius: 4px; font-family: monospace; color: #e84393;">POST</span></p>
+            <p style="margin: 8px 0; color: #636e72; font-size: 17px;"><strong style="color: #2d3436;">Content-Type:</strong> <span style="background-color: #f0f0f7; padding: 3px 10px; border-radius: 4px; font-family: monospace; color: #0984e3;">application/json</span></p>
+        </div>
+        
+        <div style="margin-bottom: 30px;">
+            <h4 style="color: #6c5ce7; font-size: 20px; margin-bottom: 15px;">Request Format:</h4>
+            <pre style="background-color: #f5f6ff; padding: 20px; border-radius: 10px; border-left: 4px solid #6c5ce7; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 15px; color: #2d3436;">
 {
     "email": "Your email content here"
 }
-        </pre>
+            </pre>
+        </div>
         
-        <h4>Response Format:</h4>
-        <pre>
+        <div style="margin-bottom: 30px;">
+            <h4 style="color: #6c5ce7; font-size: 20px; margin-bottom: 15px;">Response Format:</h4>
+            <pre style="background-color: #f5f6ff; padding: 20px; border-radius: 10px; border-left: 4px solid #6c5ce7; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 15px; color: #2d3436;">
 {
     "is_spam": true/false,
     "spam_probability": 0.95,
     "classification": "Spam"/"Not Spam"
 }
-        </pre>
+            </pre>
+        </div>
         
-        <h3>Example API Call:</h3>
-        <pre>
+        <div>
+            <h3 style="color: #0984e3; font-size: 22px; margin-bottom: 15px;">Example API Call:</h3>
+            <pre style="background-color: #f5f6ff; padding: 20px; border-radius: 10px; border-left: 4px solid #0984e3; overflow-x: auto; font-family: 'Courier New', monospace; font-size: 15px; color: #2d3436;">
 fetch('/predict', {
     method: 'POST',
     headers: {
@@ -141,8 +83,13 @@ fetch('/predict', {
 })
 .then(data => console.log(data))
 .catch(error => console.error('Error:', error));
-        </pre>
-    </div>
+            </pre>
+        </div>
+    </section>
+    
+    <footer style="text-align: center; margin-top: 40px; padding: 20px; color: #636e72; font-size: 14px;">
+        <p>Built with ❤️ for spam-free communication</p>
+    </footer>
     
     <script>
         function checkSpam() {
@@ -159,10 +106,12 @@ fetch('/predict', {
             }
             
             // Reset and show loading state
-            resultDiv.classList.add('hidden');
-            debugDiv.classList.add('hidden');
+            resultDiv.style.display = 'none';
+            debugDiv.style.display = 'none';
             loadingDiv.style.display = 'block';
             checkButton.disabled = true;
+            checkButton.style.background = 'linear-gradient(135deg, #b2bec3 0%, #dfe6e9 100%)';
+            checkButton.style.boxShadow = '0 4px 15px rgba(178,190,195,0.3)';
             
             // Prepare the request data
             const requestData = {
@@ -196,37 +145,47 @@ fetch('/predict', {
                 // Hide loading indicator
                 loadingDiv.style.display = 'none';
                 checkButton.disabled = false;
-                
-                resultDiv.classList.remove('hidden', 'spam', 'not-spam', 'error');
+                checkButton.style.background = 'linear-gradient(135deg, #6c5ce7 0%, #00cec9 100%)';
+                checkButton.style.boxShadow = '0 4px 15px rgba(108,92,231,0.3)';
                 
                 if (data.is_spam) {
-                    resultDiv.classList.add('spam');
+                    resultDiv.style.backgroundColor = '#ffeaa7';
+                    resultDiv.style.borderLeft = '6px solid #ff7675';
+                    resultDiv.style.boxShadow = '0 4px 15px rgba(255,118,117,0.15)';
+                    document.getElementById('classification').style.color = '#d63031';
                 } else {
-                    resultDiv.classList.add('not-spam');
+                    resultDiv.style.backgroundColor = '#55efc4';
+                    resultDiv.style.borderLeft = '6px solid #00b894';
+                    resultDiv.style.boxShadow = '0 4px 15px rgba(0,184,148,0.15)';
+                    document.getElementById('classification').style.color = '#00b894';
                 }
                 
                 document.getElementById('classification').textContent = data.classification;
                 document.getElementById('probability').textContent = (data.spam_probability * 100).toFixed(2) + '%';
                 
-                resultDiv.classList.remove('hidden');
+                resultDiv.style.display = 'block';
             })
             .catch(error => {
                 // Hide loading indicator
                 loadingDiv.style.display = 'none';
                 checkButton.disabled = false;
+                checkButton.style.background = 'linear-gradient(135deg, #6c5ce7 0%, #00cec9 100%)';
+                checkButton.style.boxShadow = '0 4px 15px rgba(108,92,231,0.3)';
                 
                 console.error('Error:', error);
                 
                 // Show error in the result div
-                resultDiv.classList.remove('hidden', 'spam', 'not-spam');
-                resultDiv.classList.add('error');
+                resultDiv.style.backgroundColor = '#ffeaa7';
+                resultDiv.style.borderLeft = '6px solid #fdcb6e';
+                resultDiv.style.boxShadow = '0 4px 15px rgba(253,203,110,0.15)';
                 document.getElementById('classification').textContent = 'Error';
+                document.getElementById('classification').style.color = '#e17055';
                 document.getElementById('probability').textContent = error.message || 'An error occurred while processing your request.';
-                resultDiv.classList.remove('hidden');
+                resultDiv.style.display = 'block';
                 
                 // Show debug information
                 debugInfo.textContent = `Error: ${error.message}\n\nRequest:\n${JSON.stringify(requestData, null, 2)}`;
-                debugDiv.classList.remove('hidden');
+                debugDiv.style.display = 'block';
             });
         }
         
@@ -239,7 +198,46 @@ fetch('/predict', {
                     event.preventDefault();
                 }
             });
+            
+            // Add hover effect
+            const checkButton = document.getElementById('checkButton');
+            checkButton.addEventListener('mouseover', function() {
+                if (!this.disabled) {
+                    this.style.background = 'linear-gradient(135deg, #5f50e3 0%, #00b5b5 100%)';
+                    this.style.transform = 'translateY(-2px)';
+                }
+            });
+            checkButton.addEventListener('mouseout', function() {
+                if (!this.disabled) {
+                    this.style.background = 'linear-gradient(135deg, #6c5ce7 0%, #00cec9 100%)';
+                    this.style.transform = 'translateY(0)';
+                }
+            });
+            
+            // Add focus effect to textarea
+            textArea.addEventListener('focus', function() {
+                this.style.borderColor = '#6c5ce7';
+                this.style.boxShadow = '0 0 0 3px rgba(108,92,231,0.2)';
+            });
+            textArea.addEventListener('blur', function() {
+                this.style.borderColor = '#dfe6e9';
+                this.style.boxShadow = 'none';
+            });
         });
+        
+        // Add keyframe animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
-</html>
+</html
