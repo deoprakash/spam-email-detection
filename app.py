@@ -6,7 +6,7 @@ import os
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["https://spam-email-detection-o748.onrender.com"])
 
 # Define file paths
 MODEL_PATH = 'models/spam_model.pkl'
